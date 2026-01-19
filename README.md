@@ -6,9 +6,9 @@ Original: https://github.com/crazypoultry/Wow1.12.1_Addons_Collection/tree/maste
 Keep track your Turtle WoW income / expenses on all characters
 
 ### Features
-** Switch between session/day/week/month tabs to see an overview of your finances
-** The All Chars tab keeps track of the current gold in all of your characters
-** Choose which day you want to be the first day of the week
+* Switch between session/day/week/month tabs to see an overview of your finances
+* The All Chars tab keeps track of the current gold in all of your characters
+* Choose which day you want to be the first day of the week
 
 
 
