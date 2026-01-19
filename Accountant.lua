@@ -44,6 +44,35 @@ local function Accountant_GetDateKey(t)
 	return "20" .. yy .. mm .. dd
 end
 
+local function Accountant_FormatDate(datekey)
+	if not datekey or strlen(datekey) ~= 8 then
+		return ""
+	end
+
+	local _, _, y, m, d = string.find(datekey, "(%d%d%d%d)(%d%d)(%d%d)")
+	if not y then
+		return datekey
+	end
+
+	-- Convert YYYYMMDD → DD/MM/YY
+	return d .. "/" .. m .. "/" .. string.sub(y, 3, 4)
+end
+
+local function Accountant_GetWeekdayName()
+	local ws = Accountant_SaveData[Accountant_Player]["options"].weekstart
+	local days = {
+		ACCLOC_WD_SUN,
+		ACCLOC_WD_MON,
+		ACCLOC_WD_TUE,
+		ACCLOC_WD_WED,
+		ACCLOC_WD_THU,
+		ACCLOC_WD_FRI,
+		ACCLOC_WD_SAT
+	}
+	return days[ws] or ""
+end
+
+
 function Accountant_RegisterEvents()
 	this:RegisterEvent("MERCHANT_SHOW");
 	this:RegisterEvent("MERCHANT_CLOSED");
@@ -475,7 +504,7 @@ function Accountant_OnShow()
 			if Accountant_SaveData[char]["options"]["totalcash"] ~= nil then
 				getglobal("AccountantFrameRow" ..i.."In"):SetText(Accountant_NiceCash(Accountant_SaveData[char]["options"]["totalcash"]));
 				alltotal = alltotal + Accountant_SaveData[char]["options"]["totalcash"];
-				getglobal("AccountantFrameRow" ..i.."Out"):SetText(Accountant_SaveData[char]["options"]["date"]);
+				getglobal("AccountantFrameRow" ..i.."Out"):SetText(Accountant_FormatDate(Accountant_SaveData[char]["options"]["date"]));
 			else
 				getglobal("AccountantFrameRow" ..i.."In"):SetText("Unknown");
 			end
@@ -488,7 +517,7 @@ function Accountant_OnShow()
 
 	if Accountant_CurrentTab == 3 then
 		AccountantFrameExtra:SetText(ACCLOC_WEEKSTART..":");
-		AccountantFrameExtraValue:SetText(Accountant_SaveData[Accountant_Player]["options"]["dateweek"]);
+		AccountantFrameExtraValue:SetText(Accountant_GetWeekdayName());
 	else
 		AccountantFrameExtra:SetText("");
 		AccountantFrameExtraValue:SetText("");
