@@ -9,7 +9,7 @@ Keep track your Turtle WoW income / expenses on all characters
 **The All Chars tab keeps track of the current gold in all of your characters
 **Choose which day you want to be the first day of the week
 
-##Legacy description
+## Legacy description
 Accountant 2.0 
 --------------------------------------------
 v 2.3
