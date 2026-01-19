@@ -1,5 +1,6 @@
 # Accountant
-Patched to work with Turtle WoW's 1.18.0 client. Original: https://github.com/crazypoultry/Wow1.12.1_Addons_Collection/tree/master/Accountant_v2.3/Accountant
+Patched to work with Turtle WoW's 1.18.0 client.
+Original: https://github.com/crazypoultry/Wow1.12.1_Addons_Collection/tree/master/Accountant_v2.3/Accountant
 
 ### Description
 Keep track your Turtle WoW income / expenses on all characters
