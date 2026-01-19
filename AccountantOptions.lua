@@ -46,4 +46,11 @@ end
 function AccountantOptionsFrameWeek_OnClick()
 	UIDropDownMenu_SetSelectedID(AccountantOptionsFrameWeek, this:GetID());
 	Accountant_SaveData[Accountant_Player]["options"].weekstart = this:GetID();
+	
+	-- Recalculate week start date
+	Accountant_SaveData[Accountant_Player]["options"]["dateweek"] = Accountant_WeekStart();
+	-- Refresh Accountant UI if it is open
+	if AccountantFrame and AccountantFrame:IsVisible() then
+		Accountant_OnShow();
+	end
 end
