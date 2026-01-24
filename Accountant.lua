@@ -479,11 +479,12 @@ function Accountant_OnShow()
 
 	Accountant_SetLabels();
 	if Accountant_CurrentTab ~= 5 then
-		TotalIn = 0;
-		TotalOut = 0;
-		mode = Accountant_LogModes[Accountant_CurrentTab];
+		local TotalIn = 0;
+		local TotalOut = 0;
+		local mode = Accountant_LogModes[Accountant_CurrentTab];
+		local diff;
 		for key,value in Accountant_Data do
-			row = getglobal("AccountantFrameRow" ..Accountant_Data[key].InPos.."In");
+			local row = getglobal("AccountantFrameRow" ..Accountant_Data[key].InPos.."In");
 			row:SetText(Accountant_NiceCash(Accountant_Data[key][mode].In));
 			TotalIn = TotalIn + Accountant_Data[key][mode].In;
 			row = getglobal("AccountantFrameRow" ..Accountant_Data[key].InPos.."Out");
@@ -579,7 +580,7 @@ function Accountant_UpdateLog()
 	Accountant_CheckRollovers();
 	Accountant_CurrentMoney = GetMoney();
 	Accountant_SaveData[Accountant_Player]["options"].totalcash = Accountant_CurrentMoney;
-	diff = Accountant_CurrentMoney - Accountant_LastMoney;
+	local diff = Accountant_CurrentMoney - Accountant_LastMoney;
 	Accountant_LastMoney = Accountant_CurrentMoney;
 	if diff == 0 or diff == nil then
 		return;
