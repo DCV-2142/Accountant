@@ -44,6 +44,39 @@ local function Accountant_GetDateKey(t)
 	return "20" .. yy .. mm .. dd
 end
 
+local function Accountant_CheckRollovers()
+	-- Day rollover
+	if Accountant_Data
+		and Accountant_SaveData
+		and Accountant_Player ~= ""
+		and Accountant_SaveData[Accountant_Player]
+		and Accountant_SaveData[Accountant_Player]["options"]
+		and Accountant_SaveData[Accountant_Player]["data"] then
+		local cdate = Accountant_GetDateKey()
+		if Accountant_SaveData[Accountant_Player]["options"]["date"] ~= cdate then
+			for mode,value in Accountant_Data do
+				Accountant_Data[mode]["Day"].In = 0
+				Accountant_SaveData[Accountant_Player]["data"][mode]["Day"].In = 0
+				Accountant_Data[mode]["Day"].Out = 0
+				Accountant_SaveData[Accountant_Player]["data"][mode]["Day"].Out = 0
+			end
+			Accountant_SaveData[Accountant_Player]["options"]["date"] = cdate
+		end
+
+		-- Week rollover
+		local weekstart = Accountant_WeekStart()
+		if Accountant_SaveData[Accountant_Player]["options"]["dateweek"] ~= weekstart then
+			for mode,value in Accountant_Data do
+				Accountant_Data[mode]["Week"].In = 0
+				Accountant_SaveData[Accountant_Player]["data"][mode]["Week"].In = 0
+				Accountant_Data[mode]["Week"].Out = 0
+				Accountant_SaveData[Accountant_Player]["data"][mode]["Week"].Out = 0
+			end
+			Accountant_SaveData[Accountant_Player]["options"]["dateweek"] = weekstart
+		end
+	end
+end
+
 local function Accountant_FormatDate(datekey)
 	if not datekey or strlen(datekey) ~= 8 then
 		return ""
@@ -156,6 +189,7 @@ function Accountant_OnLoad()
 
 	-- Setup
 	Accountant_LoadData();
+	Accountant_CheckRollovers();
 	Accountant_SetLabels();
 
 	-- Current Cash
@@ -441,29 +475,7 @@ function Accountant_WeekStart()
 end
 
 function Accountant_OnShow()
-	-- Check to see if the day has rolled over
-	local cdate = Accountant_GetDateKey();
-	if Accountant_SaveData[Accountant_Player]["options"]["date"] ~= cdate then
-		-- Its a new day! clear out the day tab
-		for mode,value in Accountant_Data do
-			Accountant_Data[mode]["Day"].In = 0;
-			Accountant_SaveData[Accountant_Player]["data"][mode]["Day"].In = 0;
-			Accountant_Data[mode]["Day"].Out = 0;
-			Accountant_SaveData[Accountant_Player]["data"][mode]["Day"].Out = 0;
-		end
-	end
-	Accountant_SaveData[Accountant_Player]["options"]["date"] = cdate;
-	-- Check to see if the week has rolled over
-	local weekstart = Accountant_WeekStart()
-	if Accountant_SaveData[Accountant_Player]["options"]["dateweek"] ~= weekstart then
-		for mode,value in Accountant_Data do
-			Accountant_Data[mode]["Week"].In = 0;
-			Accountant_SaveData[Accountant_Player]["data"][mode]["Week"].In = 0;
-			Accountant_Data[mode]["Week"].Out = 0;
-			Accountant_SaveData[Accountant_Player]["data"][mode]["Week"].Out = 0;
-		end
-	end
-	Accountant_SaveData[Accountant_Player]["options"]["dateweek"] = weekstart;
+	Accountant_CheckRollovers();
 
 	Accountant_SetLabels();
 	if Accountant_CurrentTab ~= 5 then
@@ -564,6 +576,7 @@ function Accountant_ResetConfirmed()
 end
 
 function Accountant_UpdateLog()
+	Accountant_CheckRollovers();
 	Accountant_CurrentMoney = GetMoney();
 	Accountant_SaveData[Accountant_Player]["options"].totalcash = Accountant_CurrentMoney;
 	diff = Accountant_CurrentMoney - Accountant_LastMoney;
