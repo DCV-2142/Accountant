@@ -270,7 +270,7 @@ function Accountant_LoadData()
 	if (Accountant_SaveData[Accountant_Player] == nil ) then
 		cdate = Accountant_GetDateKey();
 		cweek = "";
-		Accountant_SaveData[Accountant_Player] = {options={showbutton=true,buttonpos=0,version=Accountant_Version,date=cdate,weekdate=cweek,weekstart=3,totalcash=0},data={}};
+		Accountant_SaveData[Accountant_Player] = {options={showbutton=true,buttonpos=0,version=Accountant_Version,date=cdate,dateweek=cweek,weekstart=3,totalcash=0},data={}};
 		ACC_Print(ACCLOC_NEWPROFILE.." "..Accountant_Player);
 	else
 		ACC_Print(ACCLOC_LOADPROFILE.." "..Accountant_Player);
