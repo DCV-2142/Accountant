@@ -8,4 +8,4 @@ Keep track your Turtle WoW income / expenses on all characters
 ### Features
 * Switch between session/day/week/month tabs to see an overview of your finances
 * The All Chars tab keeps track of the current gold in all of your characters
-* Choose which day you want to be the first day of the week
+* Select the day that starts your week
