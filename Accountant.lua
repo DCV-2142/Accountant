@@ -242,7 +242,7 @@ function Accountant_OnLoad()
 	PanelTemplates_SetTab(AccountantFrame, AccountantFrameTab1);
 	PanelTemplates_UpdateTabs(AccountantFrame);
 	
-	ACC_Print(ACCLOC_TITLE.." " .. Accountant_Version .. " "..ACCLOC_LOADED);
+	-- ACC_Print(ACCLOC_TITLE.." " .. Accountant_Version .. " "..ACCLOC_LOADED);
 end
 
 function Accountant_LoadData()
@@ -272,8 +272,8 @@ function Accountant_LoadData()
 		cweek = "";
 		Accountant_SaveData[Accountant_Player] = {options={showbutton=true,buttonpos=0,version=Accountant_Version,date=cdate,dateweek=cweek,weekstart=3,totalcash=0},data={}};
 		ACC_Print(ACCLOC_NEWPROFILE.." "..Accountant_Player);
-	else
-		ACC_Print(ACCLOC_LOADPROFILE.." "..Accountant_Player);
+	-- else
+		-- ACC_Print(ACCLOC_LOADPROFILE.." "..Accountant_Player);
 	end
 
 	local order = 1;
