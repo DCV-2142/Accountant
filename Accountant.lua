@@ -17,7 +17,7 @@
 	Thiou for the French loc, Snj & JokerGermany for the German loc 
 ]]
 
-Accountant_Version = "2.4";
+Accountant_Version = "2.5";
 Accountant_Data = nil;
 Accountant_SaveData = nil;
 Accountant_Disabled = false;
@@ -268,8 +268,8 @@ function Accountant_LoadData()
 		Accountant_SaveData = {};
 	end
 	if (Accountant_SaveData[Accountant_Player] == nil ) then
-		cdate = Accountant_GetDateKey();
-		cweek = "";
+		local cdate = Accountant_GetDateKey();
+		local cweek = "";
 		Accountant_SaveData[Accountant_Player] = {options={showbutton=true,buttonpos=0,version=Accountant_Version,date=cdate,dateweek=cweek,weekstart=3,totalcash=0},data={}};
 		ACC_Print(ACCLOC_NEWPROFILE.." "..Accountant_Player);
 	-- else
@@ -551,7 +551,7 @@ function ACC_Print(msg)
 end
 
 function Accountant_ShowUsage()
-	QM_Print("/accountant log\n");
+	ACC_Print("/accountant log\n");
 end
 
 function Accountant_ResetData()
