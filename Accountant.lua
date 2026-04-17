@@ -17,7 +17,7 @@
 	Thiou for the French loc, Snj & JokerGermany for the German loc 
 ]]
 
-Accountant_Version = "2.5";
+Accountant_Version = "2.6";
 Accountant_Data = nil;
 Accountant_SaveData = nil;
 Accountant_Disabled = false;
@@ -311,6 +311,7 @@ function Accountant_LoadData()
 	end
 	Accountant_SaveData[Accountant_Player]["options"].version = Accountant_Version;
 	Accountant_SaveData[Accountant_Player]["options"].totalcash = GetMoney();
+	Accountant_SaveData[Accountant_Player]["options"].lastlogin = time();
 
 	if Accountant_SaveData[Accountant_Player]["options"]["weekstart"] == nil then
 		Accountant_SaveData[Accountant_Player]["options"]["weekstart"] = 3;
@@ -511,17 +512,33 @@ function Accountant_OnShow()
 	else
 		-- character totals
 		local alltotal = 0;
-		local i=1;
-		for char,charvalue in Accountant_SaveData do
+
+		-- Build a list of character names and sort by last login (most recent first).
+		-- Falls back to the stored date (YYYYMMDD as number) for characters that
+		-- haven't been logged into since this feature was added.
+		local charList = {};
+		for char in Accountant_SaveData do
+			table.insert(charList, char);
+		end
+		table.sort(charList, function(a, b)
+			local oa = Accountant_SaveData[a]["options"] or {};
+			local ob = Accountant_SaveData[b]["options"] or {};
+			local la = oa.lastlogin or tonumber(oa.date) or 0;
+			local lb = ob.lastlogin or tonumber(ob.date) or 0;
+			return la > lb;
+		end);
+
+		for i = 1, getn(charList) do
+			local char = charList[i];
 			getglobal("AccountantFrameRow" ..i.."Title"):SetText(char);
-			if Accountant_SaveData[char]["options"]["totalcash"] ~= nil then
+			if Accountant_SaveData[char]["options"] ~= nil
+				and Accountant_SaveData[char]["options"]["totalcash"] ~= nil then
 				getglobal("AccountantFrameRow" ..i.."In"):SetText(Accountant_NiceCash(Accountant_SaveData[char]["options"]["totalcash"]));
 				alltotal = alltotal + Accountant_SaveData[char]["options"]["totalcash"];
 				getglobal("AccountantFrameRow" ..i.."Out"):SetText(Accountant_FormatDate(Accountant_SaveData[char]["options"]["date"]));
 			else
 				getglobal("AccountantFrameRow" ..i.."In"):SetText("Unknown");
 			end
-			i=i+1;
 		end
 		AccountantFrameTotalInValue:SetText(Accountant_NiceCash(alltotal));
 	

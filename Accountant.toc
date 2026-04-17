@@ -1,7 +1,7 @@
 ## Interface: 11200
 ## Title: Accountant
 ## Author: D.C.V.
-## Version: 2.5
+## Version: 2.6
 ## Notes: Logs your Turtle WoW income / expenses on all characters
 ## SavedVariables: Accountant_SaveData,Accountant_Options
 Accountant.xml
